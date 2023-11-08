@@ -27,7 +27,7 @@ void ASpawnObstacle::BeginPlay()
 	{
 		float NextSpawnInterval = SpawnInterval * i;
 
-		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Black, FString::Printf(TEXT("%f"), NextSpawnInterval));
+		//GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Black, FString::Printf(TEXT("%f"), NextSpawnInterval));
 		RailSpawnObstacle(NextSpawnInterval);
 	}
 }

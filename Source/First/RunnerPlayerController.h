@@ -1,4 +1,4 @@
-l// Fill out your copyright notice in the Description page of Project Settings.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -7,8 +7,6 @@ l// Fill out your copyright notice in the Description page of Project Settings.
 #include "Components/TimelineComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "RunnerPlayerController.generated.h"
-
-DECLARE_DYNAMIC_DELEGATE_OneParam(FOnTimelineFloat, float, Output);
 
 class UTimelineComponent;
 class ARunner;
@@ -50,8 +48,6 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
 	int32 RightRail;
 
-	float Direction;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UTimelineComponent* TimelineComponent;
 
@@ -68,6 +64,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Timeline")
 	float TimelineEnd;
 
+	FVector TimelineBeginLocation;
+
+	FVector TimelineEndLocation;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -80,18 +80,17 @@ protected:
 
 	void MoveLeft(const FInputActionValue& Value);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Movement")
-	void ChangeRail(FVector CharacterLocation);
-
-	void ChangeRail();
+	UFUNCTION()
+	void TimelineUpdateFunc(float Output);
 
 	UFUNCTION()
-	void TimeLineUpdateFunc(float Output);
-
-	UFUNCTION()
-	void TimeLineFinishedFunc();
+	void TimelineFinishedFunc();
 
 	void Jump(const FInputActionValue& Value);
 
 	void Slide(const FInputActionValue& Value);
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void ChangeRail(float Direction);
 };
