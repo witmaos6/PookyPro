@@ -42,4 +42,9 @@ protected:
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void Turning(float Angle);
+
+	FORCEINLINE float GetDiagonal()
+	{
+		return DiagonalTravelDistance;
+	};
 };
