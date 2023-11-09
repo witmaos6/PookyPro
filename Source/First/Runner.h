@@ -6,6 +6,9 @@
 #include "GameFramework/Character.h"
 #include "Runner.generated.h"
 
+class UTimelineComponent;
+class UInputDataAsset;
+class UInputMappingContext;
 class UCameraComponent;
 class USpringArmComponent;
 
@@ -36,15 +39,54 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USpringArmComponent* SpringArmComponent;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputMappingContext* InputMapping;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	UInputDataAsset* InputData;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
 	float DiagonalTravelDistance;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
+	float MP;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
+	float MaxMP;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
+	float ChargeGage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
+	float DeltaCharge;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
+	bool bTransparent;
+
+	float FirstRequireSkill;
+
+	float SecondRequireSkill;
+
+	float ThirdRequireSkill;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HP")
+	int32 Life;
+protected:
+	void Charging();
+
+	void SkillShot();
+
+	void FirstSkill();
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void Turning(float Angle);
 
-	FORCEINLINE float GetDiagonal()
-	{
-		return DiagonalTravelDistance;
-	};
+	FORCEINLINE float GetDiagonal() { return DiagonalTravelDistance; };
+
+	UFUNCTION(BlueprintCallable)
+	void IncreaseMP(float Value);
+
+	UFUNCTION(BlueprintCallable)
+	void DecreaseHP();
 };

@@ -115,7 +115,7 @@ void ARunnerPlayerController::TimelineFinishedFunc()
 
 void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 {
-	if(Runner)
+	if(Runner && !Runner->GetMovementComponent()->IsFalling())
 	{
 		FVector ImpulseForce = FVector(0.f, 0.f, -1000.f);
 

@@ -7,6 +7,10 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "InputDataAsset.h"
+#include "EnhancedInputSubsystems.h"
+#include "EnhancedInputComponent.h"
+#include "Engine/LocalPlayer.h"
 
 // Sets default values
 ARunner::ARunner()
@@ -24,6 +28,17 @@ ARunner::ARunner()
 	JumpKeyHoldTime = 1.0f;
 
 	DiagonalTravelDistance = 100.f;
+
+	MP = 0.f;
+	MaxMP = 100.f;
+	FirstRequireSkill = 30.f;
+	SecondRequireSkill = 60.f;
+	ThirdRequireSkill = 100.f;
+	ChargeGage = 0.0f;
+	DeltaCharge = 1.0f;
+	bTransparent = false;
+
+	Life = 3;
 
 	bUseControllerRotationYaw = false;
 }
@@ -48,4 +63,62 @@ void ARunner::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(Cast<ULocalPlayer>(this));
+
+	/*Subsystem->ClearAllMappings();
+	Subsystem->AddMappingContext(InputMapping, 0);*/
+
+	UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(InputComponent);
+
+	EnhancedInput->BindAction(InputData->Charging, ETriggerEvent::Ongoing, this, &ARunner::Charging);
+	EnhancedInput->BindAction(InputData->SkillShot, ETriggerEvent::Completed, this, &ARunner::SkillShot);
+}
+
+void ARunner::Charging()
+{
+	if (ChargeGage < MP)
+	{
+		ChargeGage = FMath::Clamp(ChargeGage + DeltaCharge * GetWorld()->GetDeltaSeconds(), 0.f, MP);
+	}
+}
+
+void ARunner::SkillShot()
+{
+	if (ChargeGage >= ThirdRequireSkill)
+	{
+		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Blue, FString("Third"), false);
+		MP -= ThirdRequireSkill;
+	}
+	else if (ChargeGage >= SecondRequireSkill)
+	{
+		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Blue, FString("Second"), false);
+		MP -= SecondRequireSkill;
+	}
+	else if(ChargeGage >= FirstRequireSkill)
+	{
+		MP -= FirstRequireSkill;
+		FirstSkill();
+	}
+	ChargeGage = 0.0f;
+}
+
+void ARunner::FirstSkill()
+{
+	bTransparent = true;
+
+	
+}
+
+void ARunner::IncreaseMP(float Value)
+{
+	MP = FMath::Clamp(MP + Value, 0.f, MaxMP);
+}
+
+void ARunner::DecreaseHP()
+{
+	Life--;
+	if (Life == 0)
+	{
+		// To do: GameOver
+	}
 }
