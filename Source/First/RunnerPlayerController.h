@@ -68,6 +68,12 @@ protected:
 
 	FVector TimelineEndLocation;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+	float MusicPlayTime;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Music") // To do: 레벨 단위로 바껴야 하기 때문에 구조 변경 필요
+	USoundBase* BackGroundMusic; // To do:일시 정지 및 재개를 위해서 오디오 컴포넌트로 바꿔야함.
+
 protected:
 	virtual void BeginPlay() override;
 

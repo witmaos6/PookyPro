@@ -63,6 +63,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
 	bool bTransparent;
 
+	FTimerHandle TransparentTimer;
+
 	float FirstRequireSkill;
 
 	float SecondRequireSkill;
@@ -78,6 +80,8 @@ protected:
 
 	void FirstSkill();
 
+	void FirstSkillTime();
+
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void Turning(float Angle);
@@ -89,4 +93,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DecreaseHP();
+
+	bool IsTransparent() { return bTransparent; }
 };

@@ -106,7 +106,12 @@ void ARunner::FirstSkill()
 {
 	bTransparent = true;
 
-	
+	GetWorldTimerManager().SetTimer(TransparentTimer, this, &ARunner::FirstSkillTime, 5.0f, false);
+}
+
+void ARunner::FirstSkillTime()
+{
+	bTransparent = false;
 }
 
 void ARunner::IncreaseMP(float Value)

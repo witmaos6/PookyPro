@@ -8,6 +8,9 @@
 #include "EnhancedInputComponent.h"
 #include "Runner.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
+
 
 ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& ObjectInitializer)
 {
@@ -21,6 +24,8 @@ ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& Objec
 
 	TimelineBegin = 0.0f;
 	TimelineEnd = 1.0f;
+
+	MusicPlayTime = 0.0f;
 }
 
 void ARunnerPlayerController::BeginPlay()
@@ -39,15 +44,18 @@ void ARunnerPlayerController::BeginPlay()
 		TimelineCurve->GetTimeRange(TimelineBegin, TimelineEnd);
 		TimelineComponent->SetTimelineLength(TimelineEnd);
 	}
-	else
+
+	if (BackGroundMusic)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Red, TEXT("Not Exist Curve"));
+		
 	}
 }
 
 void ARunnerPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+
+	MusicPlayTime += DeltaSeconds;
 }
 
 void ARunnerPlayerController::SetupInputComponent()
@@ -117,18 +125,11 @@ void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 {
 	if(Runner && !Runner->GetMovementComponent()->IsFalling())
 	{
-		FVector ImpulseForce = FVector(0.f, 0.f, -1000.f);
-
 		UCharacterMovementComponent* Movement = Runner->GetCharacterMovement();
 		if(Movement)
 		{
-			Movement->AddImpulse(ImpulseForce, true);
-
-			if(Movement->Velocity.Length() > 60.f && !Movement->IsFalling())
-			{
 				//UAnimInstance* AnimInstance = Runner->GetMesh()->GetAnimInstance();
 				//To do: MontagePlay and Ignore Collision process
-			}
 		}
 	}
 }
@@ -138,5 +139,6 @@ void ARunnerPlayerController::Jump(const FInputActionValue& Value)
 	if(Runner)
 	{
 		Runner->Jump();
+		// To do: 2´Ü Á¡ÇÁ
 	}
 }
