@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "InputActionValue.h"
 #include "Components/TimelineComponent.h"
+#include "Components/AudioComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "RunnerPlayerController.generated.h"
 
@@ -72,7 +73,19 @@ protected:
 	float MusicPlayTime;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Music") // To do: 레벨 단위로 바껴야 하기 때문에 구조 변경 필요
-	USoundBase* BackGroundMusic; // To do:일시 정지 및 재개를 위해서 오디오 컴포넌트로 바꿔야함.
+	UAudioComponent* AudioComponent;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Music")
+	USoundBase* BackGrounMusic;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+	bool bMusicPlayTemp;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget")
+	TSubclassOf<UUserWidget> WBPCharacterStatus;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Widget")
+	UUserWidget* CharacterStatus;
 
 protected:
 	virtual void BeginPlay() override;
@@ -99,4 +112,7 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeRail(float Direction);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void DecreaseHP();
 };

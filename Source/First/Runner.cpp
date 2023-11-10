@@ -122,6 +122,13 @@ void ARunner::IncreaseMP(float Value)
 void ARunner::DecreaseHP()
 {
 	Life--;
+	
+	ARunnerPlayerController* PlayerController = Cast<ARunnerPlayerController>(GetController());
+	if (PlayerController)
+	{
+		PlayerController->DecreaseHP();
+	}
+
 	if (Life == 0)
 	{
 		// To do: GameOver

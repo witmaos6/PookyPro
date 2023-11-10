@@ -73,6 +73,7 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HP")
 	int32 Life;
+
 protected:
 	void Charging();
 

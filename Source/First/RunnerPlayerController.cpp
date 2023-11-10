@@ -10,11 +10,14 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
+#include "Blueprint/UserWidget.h"
 
 
 ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& ObjectInitializer)
 {
 	TimelineComponent = CreateDefaultSubobject<UTimelineComponent>(TEXT("TimelineComponent"));
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+
 	MoveInterval = 200.f;
 	bRailsChangeable = true;
 
@@ -26,6 +29,7 @@ ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& Objec
 	TimelineEnd = 1.0f;
 
 	MusicPlayTime = 0.0f;
+	bMusicPlayTemp = true;
 }
 
 void ARunnerPlayerController::BeginPlay()
@@ -45,9 +49,17 @@ void ARunnerPlayerController::BeginPlay()
 		TimelineComponent->SetTimelineLength(TimelineEnd);
 	}
 
-	if (BackGroundMusic)
+	if (BackGrounMusic)
 	{
-		
+		AudioComponent->SetSound(BackGrounMusic);
+		AudioComponent->Play();
+	}
+
+	if (WBPCharacterStatus)
+	{
+		CharacterStatus = CreateWidget<UUserWidget>(this, WBPCharacterStatus);
+		CharacterStatus->AddToViewport();
+		CharacterStatus->SetVisibility(ESlateVisibility::Visible);
 	}
 }
 
@@ -55,7 +67,10 @@ void ARunnerPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	MusicPlayTime += DeltaSeconds;
+	if (bMusicPlayTemp)
+	{
+		MusicPlayTime += DeltaSeconds;
+	}
 }
 
 void ARunnerPlayerController::SetupInputComponent()
