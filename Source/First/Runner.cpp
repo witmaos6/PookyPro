@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Engine/LocalPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ARunner::ARunner()
@@ -36,10 +37,15 @@ ARunner::ARunner()
 	ChargeGage = 0.0f;
 	DeltaCharge = 1.0f;
 	bTransparent = false;
+	BombDistance = 50.f;
+	BombPitch = 20.f;
+	BombDelay = 0.5f;
 
 	Life = 3;
 
 	bUseControllerRotationYaw = false;
+	bCollisionState = false;
+	CollisionDelay = 0.5f;
 }
 
 // Called when the game starts or when spawned
@@ -47,6 +53,7 @@ void ARunner::BeginPlay()
 {
 	Super::BeginPlay();
 
+	Controller = Cast<ARunnerPlayerController>(GetController());
 }
 
 // Called every frame
@@ -54,7 +61,10 @@ void ARunner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	AddMovementInput(GetActorForwardVector());
+	if(!bCollisionState)
+	{
+		AddMovementInput(GetActorForwardVector());
+	}
 }
 
 // Called to bind functionality to input
@@ -90,7 +100,7 @@ void ARunner::SkillShot()
 	}
 	else if (ChargeGage >= SecondRequireSkill)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Blue, FString("Second"), false);
+		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true, 0.f);
 		MP -= SecondRequireSkill;
 	}
 	else if(ChargeGage >= FirstRequireSkill)
@@ -113,6 +123,16 @@ void ARunner::FirstSkillTime()
 	bTransparent = false;
 }
 
+void ARunner::ShotBomb()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	FVector Location = GetActorLocation() + GetActorForwardVector() * BombDistance;
+	FRotator Rotation = GetActorRotation();
+	Rotation.Pitch += BombPitch;
+	GetWorld()->SpawnActor<AActor>(Bomb, Location, Rotation, SpawnParams);
+}
+
 void ARunner::IncreaseMP(float Value)
 {
 	MP = FMath::Clamp(MP + Value, 0.f, MaxMP);
@@ -120,10 +140,36 @@ void ARunner::IncreaseMP(float Value)
 
 void ARunner::DecreaseHP()
 {
-	Life--;
-
-	if (Life == 0)
+	if(Life > 0) // Temp
 	{
-		// To do: GameOver
+		Life--;
+
+		if (Life == 0)
+		{
+			// To do: GameOver
+		}
 	}
+}
+
+void ARunner::SetCollisionState()
+{
+	bCollisionState = true;
+
+	FTimerHandle HitTimer;
+	GetWorldTimerManager().SetTimer(HitTimer, this, &ARunner::InitCollisionState, CollisionDelay);
+
+	Controller->BGMStop();
+
+	if(HitMontage)
+	{
+		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+		AnimInstance->Montage_Play(HitMontage, 1.0f);
+	}
+}
+
+void ARunner::InitCollisionState()
+{
+	bCollisionState = false;
+
+	Controller->BGMPlay();
 }

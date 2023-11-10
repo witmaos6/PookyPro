@@ -38,5 +38,6 @@ void AObstacleBase::OnMeshOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 	if(Runner && !Runner->IsTransparent())
 	{
 		Runner->DecreaseHP();
+		Runner->SetCollisionState();
 	}
 }

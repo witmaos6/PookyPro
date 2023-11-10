@@ -111,4 +111,8 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeRail(float Direction);
+
+	void BGMStop();
+
+	void BGMPlay();
 };

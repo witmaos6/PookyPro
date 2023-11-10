@@ -158,3 +158,17 @@ void ARunnerPlayerController::Jump(const FInputActionValue& Value)
 		// To do: 2´Ü Á¡ÇÁ
 	}
 }
+
+void ARunnerPlayerController::BGMStop()
+{
+	bMusicPlayTemp = false;
+
+	AudioComponent->Stop();
+}
+
+void ARunnerPlayerController::BGMPlay()
+{
+	bMusicPlayTemp = true;
+
+	AudioComponent->Play(MusicPlayTime);
+}

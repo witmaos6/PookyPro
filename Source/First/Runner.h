@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Runner.generated.h"
 
+class ARunnerPlayerController;
 class UTimelineComponent;
 class UInputDataAsset;
 class UInputMappingContext;
@@ -63,7 +64,21 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
 	bool bTransparent;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
+	TSubclassOf<AActor> Bomb;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
+	float BombDistance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
+	float BombPitch;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
+	float BombDelay;
+
 	FTimerHandle TransparentTimer;
+
+	FTimerHandle BombShotTimer;
 
 	float FirstRequireSkill;
 
@@ -74,6 +89,17 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "HP")
 	int32 Life;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hit")
+	bool bCollisionState;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hit")
+	float CollisionDelay;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hit")
+	UAnimMontage* HitMontage;
+
+	ARunnerPlayerController* Controller;
+
 protected:
 	void Charging();
 
@@ -82,6 +108,8 @@ protected:
 	void FirstSkill();
 
 	void FirstSkillTime();
+
+	void ShotBomb();
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)
@@ -94,6 +122,10 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void DecreaseHP();
+
+	void SetCollisionState();
+
+	void InitCollisionState();
 
 	bool IsTransparent() { return bTransparent; }
 };
