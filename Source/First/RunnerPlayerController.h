@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "InputActionValue.h"
 #include "Components/TimelineComponent.h"
-#include "Components/AudioComponent.h"
 #include "GameFramework/PlayerController.h"
 #include "RunnerPlayerController.generated.h"
 
@@ -76,7 +75,7 @@ protected:
 	UAudioComponent* AudioComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Music")
-	USoundBase* BackGrounMusic;
+	USoundBase* BackGroundMusic;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
 	bool bMusicPlayTemp;
@@ -112,7 +111,4 @@ protected:
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeRail(float Direction);
-
-	UFUNCTION(BlueprintImplementableEvent)
-	void DecreaseHP();
 };

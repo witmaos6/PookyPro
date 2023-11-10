@@ -5,7 +5,6 @@
 
 #include "RunnerPlayerController.h"
 #include "Camera/CameraComponent.h"
-#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "InputDataAsset.h"
 #include "EnhancedInputSubsystems.h"
@@ -122,12 +121,6 @@ void ARunner::IncreaseMP(float Value)
 void ARunner::DecreaseHP()
 {
 	Life--;
-	
-	ARunnerPlayerController* PlayerController = Cast<ARunnerPlayerController>(GetController());
-	if (PlayerController)
-	{
-		PlayerController->DecreaseHP();
-	}
 
 	if (Life == 0)
 	{

@@ -7,10 +7,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Runner.h"
-#include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "Sound/SoundBase.h"
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Sound/SoundBase.h"
+
+#include "Components/AudioComponent.h"
 
 
 ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& ObjectInitializer)
@@ -49,13 +50,13 @@ void ARunnerPlayerController::BeginPlay()
 		TimelineComponent->SetTimelineLength(TimelineEnd);
 	}
 
-	if (BackGrounMusic)
+	if (BackGroundMusic)
 	{
-		AudioComponent->SetSound(BackGrounMusic);
+		AudioComponent->SetSound(BackGroundMusic);
 		AudioComponent->Play();
 	}
 
-	if (WBPCharacterStatus)
+	if(WBPCharacterStatus)
 	{
 		CharacterStatus = CreateWidget<UUserWidget>(this, WBPCharacterStatus);
 		CharacterStatus->AddToViewport();
