@@ -100,7 +100,7 @@ void ARunner::SkillShot()
 	}
 	else if (ChargeGage >= SecondRequireSkill)
 	{
-		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true, 0.f);
+		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true);
 		MP -= SecondRequireSkill;
 	}
 	else if(ChargeGage >= FirstRequireSkill)

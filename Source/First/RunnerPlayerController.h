@@ -115,4 +115,7 @@ public:
 	void BGMStop();
 
 	void BGMPlay();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void RaiseSound();
 };

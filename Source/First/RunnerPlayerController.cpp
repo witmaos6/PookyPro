@@ -171,4 +171,6 @@ void ARunnerPlayerController::BGMPlay()
 	bMusicPlayTemp = true;
 
 	AudioComponent->Play(MusicPlayTime);
+
+	RaiseSound();
 }
