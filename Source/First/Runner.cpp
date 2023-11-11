@@ -40,6 +40,8 @@ ARunner::ARunner()
 	BombDistance = 50.f;
 	BombPitch = 20.f;
 	BombDelay = 0.5f;
+	BombShotTime = 5.0f;
+	CurrentShotTime = 0.f;
 
 	Life = 3;
 
@@ -100,7 +102,7 @@ void ARunner::SkillShot()
 	}
 	else if (ChargeGage >= SecondRequireSkill)
 	{
-		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true);
+		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true, 0.f);
 		MP -= SecondRequireSkill;
 	}
 	else if(ChargeGage >= FirstRequireSkill)
@@ -125,6 +127,13 @@ void ARunner::FirstSkillTime()
 
 void ARunner::ShotBomb()
 {
+	CurrentShotTime += GetWorldTimerManager().GetTimerElapsed(BombShotTimer);
+	if(CurrentShotTime >= BombShotTime)
+	{
+		GetWorldTimerManager().ClearTimer(BombShotTimer);
+		return;
+	}
+
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Location = GetActorLocation() + GetActorForwardVector() * BombDistance;

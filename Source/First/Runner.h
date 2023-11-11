@@ -76,6 +76,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
 	float BombDelay;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Skill")
+	float BombShotTime;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill")
+	float CurrentShotTime;
+
 	FTimerHandle TransparentTimer;
 
 	FTimerHandle BombShotTimer;
