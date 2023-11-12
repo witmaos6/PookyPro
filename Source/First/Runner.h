@@ -137,4 +137,6 @@ public:
 	void InitCollisionState();
 
 	bool IsTransparent() { return bTransparent; }
+
+	bool IsCollisionState() { return bCollisionState; }
 };

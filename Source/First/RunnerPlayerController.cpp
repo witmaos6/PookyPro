@@ -160,7 +160,7 @@ void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 
 void ARunnerPlayerController::Jump(const FInputActionValue& Value)
 {
-	if(Runner)
+	if(Runner && !Runner->IsCollisionState())
 	{
 		Runner->Jump();
 		// To do: 2´Ü Á¡ÇÁ

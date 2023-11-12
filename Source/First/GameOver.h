@@ -6,6 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "GameOver.generated.h"
 
+class UButton;
 /**
  * 
  */
@@ -14,4 +15,7 @@ class FIRST_API UGameOver : public UUserWidget
 {
 	GENERATED_BODY()
 	
+protected:
+	UPROPERTY(meta = (BindWidget))
+	UButton* ToMainButton;
 };
