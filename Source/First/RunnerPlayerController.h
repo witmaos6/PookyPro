@@ -118,4 +118,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void RaiseSound();
+
+	void MusicStart();
+
+	void OpenGameOver();
 };

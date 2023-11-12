@@ -37,30 +37,38 @@ void ARunnerPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UWorld* World = GetWorld();
+	FString CurrentLevel = World->GetMapName();
+	if (CurrentLevel == "UEDPIE_0_BeginLevel") // UEDPIE_0_ 는 언리얼에서 붙이는 수식어 인듯 하다.
+	{
+		return;
+	}
+	GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Yellow, CurrentLevel);
+
 	Runner = Cast<ARunner>(GetCharacter());
-	TimelineUpdateDelegate.BindDynamic(this, &ARunnerPlayerController::TimelineUpdateFunc);
-	TimelineFinishedDelegate.BindDynamic(this, &ARunnerPlayerController::TimelineFinishedFunc);
-	TimelineComponent->SetTimelineFinishedFunc(TimelineFinishedDelegate);
-	TimelineComponent->SetLooping(false);
 
-	if (TimelineCurve)
+	if(Runner)
 	{
-		TimelineComponent->AddInterpFloat(TimelineCurve, TimelineUpdateDelegate);
-		TimelineCurve->GetTimeRange(TimelineBegin, TimelineEnd);
-		TimelineComponent->SetTimelineLength(TimelineEnd);
-	}
+		TimelineUpdateDelegate.BindDynamic(this, &ARunnerPlayerController::TimelineUpdateFunc);
+		TimelineFinishedDelegate.BindDynamic(this, &ARunnerPlayerController::TimelineFinishedFunc);
+		TimelineComponent->SetTimelineFinishedFunc(TimelineFinishedDelegate);
+		TimelineComponent->SetLooping(false);
 
-	if (BackGroundMusic)
-	{
-		AudioComponent->SetSound(BackGroundMusic);
-		AudioComponent->Play();
-	}
+		if (TimelineCurve)
+		{
+			TimelineComponent->AddInterpFloat(TimelineCurve, TimelineUpdateDelegate);
+			TimelineCurve->GetTimeRange(TimelineBegin, TimelineEnd);
+			TimelineComponent->SetTimelineLength(TimelineEnd);
+		}
 
-	if(WBPCharacterStatus)
-	{
-		CharacterStatus = CreateWidget<UUserWidget>(this, WBPCharacterStatus);
-		CharacterStatus->AddToViewport();
-		CharacterStatus->SetVisibility(ESlateVisibility::Visible);
+		MusicStart();
+
+		if (WBPCharacterStatus)
+		{
+			CharacterStatus = CreateWidget<UUserWidget>(this, WBPCharacterStatus);
+			CharacterStatus->AddToViewport();
+			CharacterStatus->SetVisibility(ESlateVisibility::Visible);
+		}
 	}
 }
 
@@ -173,4 +181,18 @@ void ARunnerPlayerController::BGMPlay()
 	AudioComponent->Play(MusicPlayTime);
 
 	RaiseSound();
+}
+
+void ARunnerPlayerController::MusicStart()
+{
+	if (BackGroundMusic)
+	{
+		AudioComponent->SetSound(BackGroundMusic);
+		AudioComponent->Play();
+	}
+}
+
+void ARunnerPlayerController::OpenGameOver()
+{
+	
 }

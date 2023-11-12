@@ -104,7 +104,8 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hit")
 	UAnimMontage* HitMontage;
 
-	ARunnerPlayerController* Controller;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Controller")
+	ARunnerPlayerController* RunnerPlayerController;
 
 protected:
 	void Charging();
@@ -116,6 +117,8 @@ protected:
 	void FirstSkillTime();
 
 	void ShotBomb();
+
+	void GameOver();
 
 public:
 	UFUNCTION(BlueprintImplementableEvent)

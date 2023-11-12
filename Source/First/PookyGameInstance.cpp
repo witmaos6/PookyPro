@@ -3,7 +3,6 @@
 
 #include "PookyGameInstance.h"
 
-#include "RunnerPlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "UObject/ConstructorHelpers.h"
 #include "MainMenu.h"
@@ -31,13 +30,12 @@ void UPookyGameInstance::LoadMenu()
 }
 
 void UPookyGameInstance::Play()
-{
-	GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Red, FString("Play"));
+{	
+	UWorld* World = GetWorld();
 	if(Menu)
 	{
-		//Menu->Teardown();
+		Menu->Teardown();
 	}
-	UWorld* World = GetWorld();
 
 	if(World)
 	{

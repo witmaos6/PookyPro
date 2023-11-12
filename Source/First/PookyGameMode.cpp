@@ -7,13 +7,3 @@ APookyGameMode::APookyGameMode()
 {
 	
 }
-
-void APookyGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void APookyGameMode::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-}

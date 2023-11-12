@@ -18,11 +18,6 @@ class FIRST_API APookyGameMode : public AGameModeBase
 public:
 	APookyGameMode();
 
-protected:
-	virtual void BeginPlay() override;
-
-public:
-	void Tick(float DeltaSeconds) override;
 
 protected:
 	// To do: 레벨에 맞는 음악 제공 모듈 추가

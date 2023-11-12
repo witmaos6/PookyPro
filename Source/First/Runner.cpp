@@ -10,7 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Engine/LocalPlayer.h"
-#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ARunner::ARunner()
@@ -55,7 +55,7 @@ void ARunner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Controller = Cast<ARunnerPlayerController>(GetController());
+	RunnerPlayerController = Cast<ARunnerPlayerController>(GetController());
 }
 
 // Called every frame
@@ -142,6 +142,11 @@ void ARunner::ShotBomb()
 	GetWorld()->SpawnActor<AActor>(Bomb, Location, Rotation, SpawnParams);
 }
 
+void ARunner::GameOver()
+{
+	RunnerPlayerController->OpenGameOver();
+}
+
 void ARunner::IncreaseMP(float Value)
 {
 	MP = FMath::Clamp(MP + Value, 0.f, MaxMP);
@@ -155,7 +160,7 @@ void ARunner::DecreaseHP()
 
 		if (Life == 0)
 		{
-			// To do: GameOver
+			GameOver();
 		}
 	}
 }
@@ -167,7 +172,7 @@ void ARunner::SetCollisionState()
 	FTimerHandle HitTimer;
 	GetWorldTimerManager().SetTimer(HitTimer, this, &ARunner::InitCollisionState, CollisionDelay);
 
-	Controller->BGMStop();
+	RunnerPlayerController->BGMStop();
 
 	if(HitMontage)
 	{
@@ -180,5 +185,5 @@ void ARunner::InitCollisionState()
 {
 	bCollisionState = false;
 
-	Controller->BGMPlay();
+	RunnerPlayerController->BGMPlay();
 }
