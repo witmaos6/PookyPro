@@ -10,8 +10,8 @@
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Sound/SoundBase.h"
-
 #include "Components/AudioComponent.h"
+#include "PookyGameInstance.h"
 
 
 ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& ObjectInitializer)
@@ -194,5 +194,10 @@ void ARunnerPlayerController::MusicStart()
 
 void ARunnerPlayerController::OpenGameOver()
 {
-	
+	UPookyGameInstance* GameInstance = Cast<UPookyGameInstance>(GetGameInstance());
+
+	if (GameInstance)
+	{
+		GameInstance->LoadGameOverUI();
+	}
 }

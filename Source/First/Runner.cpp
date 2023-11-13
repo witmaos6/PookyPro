@@ -170,7 +170,11 @@ void ARunner::SetCollisionState()
 	bCollisionState = true;
 
 	FTimerHandle HitTimer;
-	GetWorldTimerManager().SetTimer(HitTimer, this, &ARunner::InitCollisionState, CollisionDelay);
+
+	if (Life > 0)
+	{
+		GetWorldTimerManager().SetTimer(HitTimer, this, &ARunner::InitCollisionState, CollisionDelay);
+	}
 
 	RunnerPlayerController->BGMStop();
 

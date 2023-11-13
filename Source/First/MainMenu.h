@@ -16,13 +16,6 @@ class FIRST_API UMainMenu : public UUserWidget
 {
 	GENERATED_BODY()
 
-public:
-	void SetMenuInterface(IMenuInterface* MenuInterfaceParam);
-
-	void Setup();
-
-	void Teardown();
-
 protected:
 	virtual bool Initialize() override;
 
@@ -31,6 +24,13 @@ protected:
 	UButton* PlayButton;
 
 	IMenuInterface* MenuInterface;
+
+public:
+	void SetMenuInterface(IMenuInterface* MenuInterfaceParam);
+
+	void Setup();
+
+	void Teardown();
 
 protected:
 	UFUNCTION()

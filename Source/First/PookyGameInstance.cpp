@@ -5,13 +5,20 @@
 
 #include "Blueprint/UserWidget.h"
 #include "UObject/ConstructorHelpers.h"
+#include "PookyGameMode.h"
+#include "RunnerPlayerController.h"
 #include "MainMenu.h"
+#include "GameOver.h"
+#include "Kismet/GameplayStatics.h"
+
 
 UPookyGameInstance::UPookyGameInstance(const FObjectInitializer& ObjectInitializer)
 {
 	static ConstructorHelpers::FClassFinder<UUserWidget> MenuBPClass(TEXT("/Game/MainUI/WBP_MainUI"));
-
 	MainMenu = MenuBPClass.Class;
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> GameOverBPClass(TEXT("/Game/MainUI/WBP_GameOver"));
+	GameOverUI = GameOverBPClass.Class;
 }
 
 void UPookyGameInstance::Init()
@@ -29,16 +36,35 @@ void UPookyGameInstance::LoadMenu()
 	}
 }
 
+void UPookyGameInstance::LoadGameOverUI()
+{
+	if (GameOverUI)
+	{
+		GameOver = CreateWidget<UGameOver>(this, GameOverUI);
+		GameOver->Setup();
+		GameOver->SetMenuInterface(this);
+	}
+}
+
 void UPookyGameInstance::Play()
 {	
-	UWorld* World = GetWorld();
 	if(Menu)
 	{
 		Menu->Teardown();
 	}
 
+	UWorld* World = GetWorld();
 	if(World)
 	{
 		World->ServerTravel("/Game/Maps/Test");
+	}
+}
+
+void UPookyGameInstance::ToMainMenu()
+{
+	UWorld* World = GetWorld();
+	if (World)
+	{
+		World->ServerTravel("/Game/MainUI/BeginLevel");
 	}
 }

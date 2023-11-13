@@ -8,6 +8,7 @@
 #include "PookyGameInstance.generated.h"
 
 class UMainMenu;
+class UGameOver;
 /**
  * 
  */
@@ -25,12 +26,23 @@ protected:
 
 	UMainMenu* Menu;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget")
+	TSubclassOf<UUserWidget> GameOverUI;
+
+	UGameOver* GameOver;
+
 public:
 	virtual void Init();
 
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();
 
+	UFUNCTION(BlueprintCallable)
+	void LoadGameOverUI();
+
 	UFUNCTION(Exec)
 	virtual void Play() override;
+
+	UFUNCTION(Exec)
+	virtual void ToMainMenu() override;
 };
