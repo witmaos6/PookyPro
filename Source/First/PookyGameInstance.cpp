@@ -5,11 +5,8 @@
 
 #include "Blueprint/UserWidget.h"
 #include "UObject/ConstructorHelpers.h"
-#include "PookyGameMode.h"
-#include "RunnerPlayerController.h"
 #include "MainMenu.h"
 #include "GameOver.h"
-#include "Kismet/GameplayStatics.h"
 
 
 UPookyGameInstance::UPookyGameInstance(const FObjectInitializer& ObjectInitializer)

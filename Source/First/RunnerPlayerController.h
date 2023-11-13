@@ -119,6 +119,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void RaiseSound();
 
+	UFUNCTION(BlueprintCallable)
 	void MusicStart();
 
 	void OpenGameOver();

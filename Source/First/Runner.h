@@ -118,8 +118,6 @@ protected:
 
 	void ShotBomb();
 
-	void GameOver();
-
 public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void Turning(float Angle);

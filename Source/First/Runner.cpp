@@ -142,11 +142,6 @@ void ARunner::ShotBomb()
 	GetWorld()->SpawnActor<AActor>(Bomb, Location, Rotation, SpawnParams);
 }
 
-void ARunner::GameOver()
-{
-	RunnerPlayerController->OpenGameOver();
-}
-
 void ARunner::IncreaseMP(float Value)
 {
 	MP = FMath::Clamp(MP + Value, 0.f, MaxMP);
@@ -160,7 +155,7 @@ void ARunner::DecreaseHP()
 
 		if (Life == 0)
 		{
-			GameOver();
+			RunnerPlayerController->OpenGameOver();
 		}
 	}
 }

@@ -30,7 +30,7 @@ ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& Objec
 	TimelineEnd = 1.0f;
 
 	MusicPlayTime = 0.0f;
-	bMusicPlayTemp = true;
+	bMusicPlayTemp = false;
 }
 
 void ARunnerPlayerController::BeginPlay()
@@ -41,6 +41,7 @@ void ARunnerPlayerController::BeginPlay()
 	FString CurrentLevel = World->GetMapName();
 	if (CurrentLevel == "UEDPIE_0_BeginLevel") // UEDPIE_0_ 는 언리얼에서 붙이는 수식어 인듯 하다.
 	{
+		AudioComponent->Stop();
 		return;
 	}
 	GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Yellow, CurrentLevel);
@@ -60,8 +61,6 @@ void ARunnerPlayerController::BeginPlay()
 			TimelineCurve->GetTimeRange(TimelineBegin, TimelineEnd);
 			TimelineComponent->SetTimelineLength(TimelineEnd);
 		}
-
-		MusicStart();
 
 		if (WBPCharacterStatus)
 		{
@@ -187,6 +186,7 @@ void ARunnerPlayerController::MusicStart()
 {
 	if (BackGroundMusic)
 	{
+		bMusicPlayTemp = true;
 		AudioComponent->SetSound(BackGroundMusic);
 		AudioComponent->Play();
 	}
