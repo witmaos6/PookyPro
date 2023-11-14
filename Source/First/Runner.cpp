@@ -102,6 +102,7 @@ void ARunner::SkillShot()
 	if (ChargeGage >= ThirdRequireSkill)
 	{
 		RunnerPlayerController->BGMPitchUp();
+		FirstSkill();
 		MP -= ThirdRequireSkill;
 	}
 	else if (ChargeGage >= SecondRequireSkill)
