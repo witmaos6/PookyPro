@@ -31,6 +31,10 @@ ARunnerPlayerController::ARunnerPlayerController(const FObjectInitializer& Objec
 
 	MusicPlayTime = 0.0f;
 	bMusicPlayTemp = false;
+
+	ThirdSkillSpeed = 900.f;
+	ThirdSkillDelta = 1.5;
+	ThirdSkillTime = 5.0f;
 }
 
 void ARunnerPlayerController::BeginPlay()
@@ -47,6 +51,7 @@ void ARunnerPlayerController::BeginPlay()
 	GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Yellow, CurrentLevel);
 
 	Runner = Cast<ARunner>(GetCharacter());
+	ThirdSkillSpeed = Runner->GetMovementComponent()->GetMaxSpeed() * ThirdSkillDelta;
 
 	if(Runner)
 	{
@@ -169,16 +174,13 @@ void ARunnerPlayerController::Jump(const FInputActionValue& Value)
 void ARunnerPlayerController::BGMStop()
 {
 	bMusicPlayTemp = false;
-
 	AudioComponent->Stop();
 }
 
 void ARunnerPlayerController::BGMPlay()
 {
 	bMusicPlayTemp = true;
-
 	AudioComponent->Play(MusicPlayTime);
-
 	RaiseSound();
 }
 
@@ -200,4 +202,22 @@ void ARunnerPlayerController::OpenGameOver()
 	{
 		GameInstance->LoadGameOverUI();
 	}
+}
+
+void ARunnerPlayerController::BGMPitchUp()
+{
+	if (BackGroundMusic)
+	{
+		AudioComponent->SetPitchMultiplier(ThirdSkillDelta);
+		Runner->GetCharacterMovement()->MaxWalkSpeed = ThirdSkillSpeed;
+
+		FTimerHandle ResetTimer;
+		GetWorldTimerManager().SetTimer(ResetTimer, this, &ARunnerPlayerController::BGMPitchReset, ThirdSkillTime, false);
+	}
+}
+
+void ARunnerPlayerController::BGMPitchReset()
+{
+	AudioComponent->SetPitchMultiplier(1.0f);
+	Runner->GetCharacterMovement()->MaxWalkSpeed = Runner->GetBasicSpeed();
 }

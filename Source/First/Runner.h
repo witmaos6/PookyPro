@@ -49,6 +49,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
 	float DiagonalTravelDistance;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
+	float BasicSpeed;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
 	float MP;
 
@@ -123,6 +126,8 @@ public:
 	void Turning(float Angle);
 
 	FORCEINLINE float GetDiagonal() { return DiagonalTravelDistance; };
+
+	FORCEINLINE float GetBasicSpeed() { return BasicSpeed; }
 
 	UFUNCTION(BlueprintCallable)
 	void IncreaseMP(float Value);

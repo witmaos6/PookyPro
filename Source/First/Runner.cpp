@@ -10,6 +10,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Engine/LocalPlayer.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 // Sets default values
@@ -48,6 +49,8 @@ ARunner::ARunner()
 	bUseControllerRotationYaw = false;
 	bCollisionState = false;
 	CollisionDelay = 0.5f;
+	
+	BasicSpeed = 600.f;
 }
 
 // Called when the game starts or when spawned
@@ -56,6 +59,7 @@ void ARunner::BeginPlay()
 	Super::BeginPlay();
 
 	RunnerPlayerController = Cast<ARunnerPlayerController>(GetController());
+	BasicSpeed = GetCharacterMovement()->MaxWalkSpeed;
 }
 
 // Called every frame
@@ -97,7 +101,7 @@ void ARunner::SkillShot()
 {
 	if (ChargeGage >= ThirdRequireSkill)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Blue, FString("Third"), false);
+		RunnerPlayerController->BGMPitchUp();
 		MP -= ThirdRequireSkill;
 	}
 	else if (ChargeGage >= SecondRequireSkill)

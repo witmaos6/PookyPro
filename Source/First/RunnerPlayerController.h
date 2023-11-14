@@ -86,6 +86,15 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Widget")
 	UUserWidget* CharacterStatus;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
+	float ThirdSkillSpeed;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
+	float ThirdSkillDelta;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
+	float ThirdSkillTime;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -123,4 +132,8 @@ public:
 	void MusicStart();
 
 	void OpenGameOver();
+
+	void BGMPitchUp();
+
+	void BGMPitchReset();
 };
