@@ -16,6 +16,9 @@ ASpawnObstacle::ASpawnObstacle()
 	RailInterval = 200.f;
 	SpawnInterval = 600.f;
 	NrOfSpawn = 1;
+
+	LeftRail = 0;
+	RightRail = 2;
 }
 
 // Called when the game starts or when spawned
@@ -58,7 +61,7 @@ void ASpawnObstacle::RailSpawnObstacle(float ForwardInterval)
 	FVector ForwardVector = GetActorForwardVector() * ForwardInterval;
 
 	FActorSpawnParameters SpawnParams;
-	for (int32 i = 0; i < bSetObstacles.Num(); i++)
+	for (int32 i = LeftRail; i < RightRail; i++)
 	{
 		if (bSetObstacles[i])
 		{

@@ -28,6 +28,12 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	TSubclassOf<AActor> Item;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	int32 LeftRail;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	int32 RightRail;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

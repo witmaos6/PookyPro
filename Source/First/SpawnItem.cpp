@@ -12,6 +12,9 @@ ASpawnItem::ASpawnItem()
 	RailInterval = 200.f;
 	SpawnInterval = 300.f;
 	NrOfSpawn = 4;
+
+	LeftRail = 0;
+	RightRail = 2;
 }
 
 // Called when the game starts or when spawned
@@ -31,7 +34,7 @@ void ASpawnItem::Tick(float DeltaTime)
 
 void ASpawnItem::SpawnItem()
 {
-	int32 SpawnRail = FMath::RandRange(0, 2);
+	int32 SpawnRail = FMath::RandRange(LeftRail, RightRail);
 	FVector RightLocation = GetActorRightVector() * (RailInterval * SpawnRail);
 	FVector ForwardLocation = GetActorForwardVector() * SpawnInterval;
 	FVector Location = GetActorLocation();
