@@ -22,16 +22,16 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	float SpawnInterval;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Obstacle")
 	int32 NrOfSpawn;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	TSubclassOf<AActor> Item;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Movement")
 	int32 LeftRail;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Movement")
 	int32 RightRail;
 
 protected:

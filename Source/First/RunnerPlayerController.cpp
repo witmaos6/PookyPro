@@ -48,7 +48,7 @@ void ARunnerPlayerController::BeginPlay()
 		AudioComponent->Stop();
 		return;
 	}
-	GEngine->AddOnScreenDebugMessage(1, 1.0f, FColor::Yellow, CurrentLevel);
+	bMusicPlayTemp = true;
 
 	Runner = Cast<ARunner>(GetCharacter());
 	ThirdSkillSpeed = Runner->GetMovementComponent()->GetMaxSpeed() * ThirdSkillDelta;
