@@ -11,6 +11,7 @@
 #include "EnhancedInputComponent.h"
 #include "Engine/LocalPlayer.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -43,6 +44,8 @@ ARunner::ARunner()
 	BombDelay = 0.5f;
 	BombShotTime = 5.0f;
 	CurrentShotTime = 0.f;
+
+	SkillSound = 1.0f;
 
 	Life = 3;
 
@@ -101,18 +104,36 @@ void ARunner::SkillShot()
 {
 	if (ChargeGage >= ThirdRequireSkill)
 	{
+		MP -= ThirdRequireSkill;
+		if(ThirdSkillSound)
+		{
+			UGameplayStatics::PlaySound2D(GetWorld(), ThirdSkillSound, SkillSound);
+		}
+		if(HaeteSpawnSound)
+		{
+			UGameplayStatics::PlaySound2D(GetWorld(), HaeteSpawnSound, SkillSound);
+		}
 		RunnerPlayerController->BGMPitchUp();
 		FirstSkill();
-		MP -= ThirdRequireSkill;
+		
 	}
 	else if (ChargeGage >= SecondRequireSkill)
 	{
-		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true, 0.f);
 		MP -= SecondRequireSkill;
+		if (SecondSkillSound)
+		{
+			UGameplayStatics::PlaySound2D(GetWorld(), SecondSkillSound, SkillSound);
+		}
+		GetWorldTimerManager().SetTimer(BombShotTimer, this, &ARunner::ShotBomb, BombDelay, true, 0.f);
+		
 	}
 	else if(ChargeGage >= FirstRequireSkill)
 	{
 		MP -= FirstRequireSkill;
+		if(FirstSkillSound)
+		{
+			UGameplayStatics::PlaySound2D(GetWorld(), FirstSkillSound, SkillSound);
+		}
 		FirstSkill();
 	}
 	ChargeGage = 0.0f;

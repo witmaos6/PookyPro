@@ -85,6 +85,21 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill")
 	float CurrentShotTime;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Skill")
+	USoundBase* FirstSkillSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Skill")
+	USoundBase* SecondSkillSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Skill")
+	USoundBase* ThirdSkillSound;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Skill")
+	USoundBase* HaeteSpawnSound;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
+	float SkillSound;
+
 	FTimerHandle TransparentTimer;
 
 	FTimerHandle BombShotTimer;

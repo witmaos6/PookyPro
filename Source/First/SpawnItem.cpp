@@ -38,6 +38,7 @@ void ASpawnItem::SpawnItem()
 	FVector RightLocation = GetActorRightVector() * (RailInterval * SpawnRail);
 	FVector ForwardLocation = GetActorForwardVector() * SpawnInterval;
 	FVector Location = GetActorLocation();
+	Location.Z += 100.f;
 	FRotator Rotation = GetActorRotation();
 	FActorSpawnParameters SpawnParams;
 
