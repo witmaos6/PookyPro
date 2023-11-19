@@ -131,6 +131,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void MusicStart();
 
+	UFUNCTION(BlueprintCallable)
 	void OpenGameOver();
 
 	void BGMPitchUp();

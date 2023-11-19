@@ -105,7 +105,7 @@ void ARunnerPlayerController::SetupInputComponent()
 
 void ARunnerPlayerController::MoveRight(const FInputActionValue& Value)
 {
-	if(!Runner->GetCharacterMovement()->IsFalling() && bRailsChangeable && CurrentRail < RightRail)
+	if(!Runner->GetCharacterMovement()->IsFalling() && bRailsChangeable && CurrentRail < RightRail && !Runner->IsCollisionState())
 	{
 		bRailsChangeable = false;
 
@@ -117,7 +117,7 @@ void ARunnerPlayerController::MoveRight(const FInputActionValue& Value)
 
 void ARunnerPlayerController::MoveLeft(const FInputActionValue& Value)
 {
-	if (!Runner->GetCharacterMovement()->IsFalling() && bRailsChangeable && CurrentRail > LeftRail)
+	if (!Runner->GetCharacterMovement()->IsFalling() && bRailsChangeable && CurrentRail > LeftRail && !Runner->IsCollisionState())
 	{
 		bRailsChangeable = false;
 
@@ -151,7 +151,7 @@ void ARunnerPlayerController::TimelineFinishedFunc()
 
 void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 {
-	if(Runner && !Runner->GetMovementComponent()->IsFalling())
+	if(Runner && !Runner->GetMovementComponent()->IsFalling() && !Runner->IsCollisionState())
 	{
 		UCharacterMovementComponent* Movement = Runner->GetCharacterMovement();
 		if(Movement)

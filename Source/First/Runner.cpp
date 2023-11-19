@@ -181,6 +181,7 @@ void ARunner::DecreaseHP()
 
 		if (Life == 0)
 		{
+			bCollisionState = true;
 			RunnerPlayerController->OpenGameOver();
 		}
 	}
