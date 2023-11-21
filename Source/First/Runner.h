@@ -52,6 +52,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Movement")
 	float BasicSpeed;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
+	UAnimMontage* SlideMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+	bool bSlide;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
 	float MP;
 
@@ -157,4 +163,11 @@ public:
 	bool IsTransparent() { return bTransparent; }
 
 	bool IsCollisionState() { return bCollisionState; }
+
+	UAnimMontage* GetSlideMontage() { return SlideMontage; }
+
+	UFUNCTION(BlueprintCallable)
+	void SetSlideState(bool State) { bSlide = State; }
+
+	bool IsSlide() { return bSlide; }
 };

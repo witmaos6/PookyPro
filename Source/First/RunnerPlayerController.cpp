@@ -151,13 +151,17 @@ void ARunnerPlayerController::TimelineFinishedFunc()
 
 void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 {
-	if(Runner && !Runner->GetMovementComponent()->IsFalling() && !Runner->IsCollisionState())
+	if(Runner && !Runner->GetMovementComponent()->IsFalling() && !Runner->IsCollisionState() && !Runner->IsSlide())
 	{
 		UCharacterMovementComponent* Movement = Runner->GetCharacterMovement();
 		if(Movement)
 		{
-				//UAnimInstance* AnimInstance = Runner->GetMesh()->GetAnimInstance();
-				//To do: MontagePlay and Ignore Collision process
+			UAnimInstance* AnimInstance = Runner->GetMesh()->GetAnimInstance();
+			if (AnimInstance)
+			{
+				AnimInstance->Montage_Play(Runner->GetSlideMontage(), 1.0f);
+				Runner->SetSlideState(true);
+			}
 		}
 	}
 }

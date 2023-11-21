@@ -54,6 +54,8 @@ ARunner::ARunner()
 	CollisionDelay = 0.5f;
 	
 	BasicSpeed = 600.f;
+
+	bSlide = false;
 }
 
 // Called when the game starts or when spawned
