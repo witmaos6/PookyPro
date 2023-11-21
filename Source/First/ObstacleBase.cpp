@@ -15,6 +15,8 @@ AObstacleBase::AObstacleBase()
 	RootComponent = MeshComponent;
 
 	MeshComponent->SetCollisionResponseToAllChannels(ECR_Overlap);
+
+	bIsSlideObstacle = false;
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +39,11 @@ void AObstacleBase::OnMeshOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 	ARunner* Runner = Cast<ARunner>(OtherActor);
 	if(Runner && !Runner->IsTransparent())
 	{
+		if (bIsSlideObstacle && Runner->IsSlide())
+		{
+			return;
+		}
+
 		Runner->DecreaseHP();
 		Runner->SetCollisionState();
 	}

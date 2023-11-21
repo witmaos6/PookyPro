@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "SpawnObstacle.generated.h"
 
+class AObstacleBase;
+
 UCLASS()
 class FIRST_API ASpawnObstacle : public AActor
 {
@@ -30,6 +32,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Obstacle")
 	TSubclassOf<AActor> SpawnObstacle;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Obstacle")
+	TArray<TSubclassOf<AObstacleBase>> SpawnObstacles;
 
 	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Movement")
 	int32 LeftRail;

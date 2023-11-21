@@ -67,7 +67,9 @@ void ASpawnObstacle::RailSpawnObstacle(float ForwardInterval)
 		{
 			float DeltaRailInterval = RailInterval * i;
 			FVector SpawnLocation = Location + (RightVector * DeltaRailInterval) + ForwardVector;
-			GetWorld()->SpawnActor<AObstacleBase>(SpawnObstacle, SpawnLocation, Rotation, SpawnParams);
+
+			int32 SpawnIndex = FMath::RandRange(0, SpawnObstacles.Num() - 1);
+			GetWorld()->SpawnActor<AObstacleBase>(SpawnObstacles[SpawnIndex], SpawnLocation, Rotation, SpawnParams);
 		}
 	}
 }
