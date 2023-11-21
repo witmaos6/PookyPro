@@ -13,6 +13,16 @@ class UInputMappingContext;
 class UCameraComponent;
 class USpringArmComponent;
 
+UENUM(BlueprintType)
+enum class ECharacterState : uint8
+{
+	ECS_Normal UMETA(DisplayName = "Normal"),
+	ECS_Jump UMETA(DisplayName = "Jump"),
+	ECS_Slide UMETA(DisplayName = "Slide"),
+	ECS_Hit UMETA(DisplayName = "Hit"),
+	ECS_End UMETA(DisplayName = "End")
+};
+
 UCLASS()
 class FIRST_API ARunner : public ACharacter
 {
@@ -46,6 +56,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
 	UInputDataAsset* InputData;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
+	ECharacterState CharacterState;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
 	float DiagonalTravelDistance;
 
@@ -54,9 +67,6 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement")
 	UAnimMontage* SlideMontage;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
-	bool bSlide;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Skill")
 	float MP;
@@ -158,7 +168,7 @@ public:
 
 	void SetCollisionState();
 
-	void InitCollisionState();
+	void ResetCollisionState();
 
 	bool IsTransparent() { return bTransparent; }
 
@@ -166,8 +176,7 @@ public:
 
 	UAnimMontage* GetSlideMontage() { return SlideMontage; }
 
-	UFUNCTION(BlueprintCallable)
-	void SetSlideState(bool State) { bSlide = State; }
+	FORCEINLINE void SetCharacterState(ECharacterState State) { CharacterState = State; }
 
-	bool IsSlide() { return bSlide; }
+	FORCEINLINE ECharacterState GetCharacterState() { return CharacterState; }
 };

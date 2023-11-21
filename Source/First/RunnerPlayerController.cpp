@@ -105,7 +105,7 @@ void ARunnerPlayerController::SetupInputComponent()
 
 void ARunnerPlayerController::MoveRight(const FInputActionValue& Value)
 {
-	if(!Runner->GetCharacterMovement()->IsFalling() && bRailsChangeable && CurrentRail < RightRail && !Runner->IsCollisionState())
+	if(Runner->GetCharacterState() == ECharacterState::ECS_Normal && bRailsChangeable && CurrentRail < RightRail)
 	{
 		bRailsChangeable = false;
 
@@ -117,7 +117,7 @@ void ARunnerPlayerController::MoveRight(const FInputActionValue& Value)
 
 void ARunnerPlayerController::MoveLeft(const FInputActionValue& Value)
 {
-	if (!Runner->GetCharacterMovement()->IsFalling() && bRailsChangeable && CurrentRail > LeftRail && !Runner->IsCollisionState())
+	if (Runner->GetCharacterState() == ECharacterState::ECS_Normal && bRailsChangeable && CurrentRail > LeftRail)
 	{
 		bRailsChangeable = false;
 
@@ -151,7 +151,7 @@ void ARunnerPlayerController::TimelineFinishedFunc()
 
 void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 {
-	if(Runner && !Runner->GetMovementComponent()->IsFalling() && !Runner->IsCollisionState() && !Runner->IsSlide())
+	if(Runner && Runner->GetCharacterState() == ECharacterState::ECS_Normal)
 	{
 		UCharacterMovementComponent* Movement = Runner->GetCharacterMovement();
 		if(Movement)
@@ -160,7 +160,7 @@ void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 			if (AnimInstance)
 			{
 				AnimInstance->Montage_Play(Runner->GetSlideMontage(), 1.0f);
-				Runner->SetSlideState(true);
+				Runner->SetCharacterState(ECharacterState::ECS_Slide);
 			}
 		}
 	}
@@ -168,10 +168,21 @@ void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 
 void ARunnerPlayerController::Jump(const FInputActionValue& Value)
 {
-	if(Runner && !Runner->IsCollisionState())
+	if(Runner && (Runner->GetCharacterState() == ECharacterState::ECS_Normal || Runner->GetCharacterState() == ECharacterState::ECS_Jump))
 	{
 		Runner->Jump();
+		Runner->SetCharacterState(ECharacterState::ECS_Jump);
 		// To do: 2´Ü Á¡ÇÁ
+	}
+	GetWorldTimerManager().SetTimer(JumpTimer, this, &ARunnerPlayerController::ResetJumpState, GetWorld()->GetDeltaSeconds(), true);
+}
+
+void ARunnerPlayerController::ResetJumpState()
+{
+	if(!Runner->GetMovementComponent()->IsFalling())
+	{
+		Runner->SetCharacterState(ECharacterState::ECS_Normal);
+		GetWorldTimerManager().ClearTimer(JumpTimer);
 	}
 }
 

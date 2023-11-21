@@ -39,7 +39,7 @@ void AObstacleBase::OnMeshOverlapBegin(UPrimitiveComponent* OverlappedComponent,
 	ARunner* Runner = Cast<ARunner>(OtherActor);
 	if(Runner && !Runner->IsTransparent())
 	{
-		if (bIsSlideObstacle && Runner->IsSlide())
+		if (bIsSlideObstacle && Runner->GetCharacterState() == ECharacterState::ECS_Slide)
 		{
 			return;
 		}

@@ -55,7 +55,7 @@ ARunner::ARunner()
 	
 	BasicSpeed = 600.f;
 
-	bSlide = false;
+	CharacterState = ECharacterState::ECS_Normal;
 }
 
 // Called when the game starts or when spawned
@@ -72,7 +72,7 @@ void ARunner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(!bCollisionState)
+	if(CharacterState != ECharacterState::ECS_Hit)
 	{
 		AddMovementInput(GetActorForwardVector());
 	}
@@ -183,7 +183,7 @@ void ARunner::DecreaseHP()
 
 		if (Life == 0)
 		{
-			bCollisionState = true;
+			CharacterState = ECharacterState::ECS_Hit;
 			RunnerPlayerController->OpenGameOver();
 		}
 	}
@@ -191,13 +191,13 @@ void ARunner::DecreaseHP()
 
 void ARunner::SetCollisionState()
 {
-	bCollisionState = true;
+	CharacterState = ECharacterState::ECS_Hit;
 
 	FTimerHandle HitTimer;
 
 	if (Life > 0)
 	{
-		GetWorldTimerManager().SetTimer(HitTimer, this, &ARunner::InitCollisionState, CollisionDelay);
+		GetWorldTimerManager().SetTimer(HitTimer, this, &ARunner::ResetCollisionState, CollisionDelay);
 	}
 
 	RunnerPlayerController->BGMStop();
@@ -209,9 +209,9 @@ void ARunner::SetCollisionState()
 	}
 }
 
-void ARunner::InitCollisionState()
+void ARunner::ResetCollisionState()
 {
-	bCollisionState = false;
+	CharacterState = ECharacterState::ECS_Normal;
 
 	RunnerPlayerController->BGMPlay();
 }

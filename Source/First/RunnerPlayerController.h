@@ -95,6 +95,8 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
 	float ThirdSkillTime;
 
+	FTimerHandle JumpTimer;
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -114,6 +116,8 @@ protected:
 	void TimelineFinishedFunc();
 
 	void Jump(const FInputActionValue& Value);
+
+	void ResetJumpState();
 
 	void Slide(const FInputActionValue& Value);
 
