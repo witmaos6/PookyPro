@@ -44,14 +44,14 @@ void ASpawnObstacle::Tick(float DeltaTime)
 
 void ASpawnObstacle::RailSpawnObstacle(float ForwardInterval)
 {
-	for (int32 i = 0; i < bSetObstacles.Num(); i++)
+	for (int32 i = LeftRail; i < bSetObstacles.Num(); i++)
 	{
 		bSetObstacles[i] = FMath::RandBool();
 	}
 
 	if (AllObstacles())
 	{
-		int32 Index = FMath::RandRange(0, bSetObstacles.Num() - 1);
+		int32 Index = FMath::RandRange(LeftRail, bSetObstacles.Num() - 1);
 		bSetObstacles[Index] = false;
 	}
 
@@ -76,7 +76,7 @@ void ASpawnObstacle::RailSpawnObstacle(float ForwardInterval)
 
 bool ASpawnObstacle::AllObstacles()
 {
-	for (int32 i = 0; i < bSetObstacles.Num(); i++)
+	for (int32 i = LeftRail; i < bSetObstacles.Num(); i++)
 	{
 		if (!bSetObstacles[i])
 		{

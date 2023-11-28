@@ -158,6 +158,7 @@ void ARunner::ShotBomb()
 	CurrentShotTime += GetWorldTimerManager().GetTimerElapsed(BombShotTimer);
 	if(CurrentShotTime >= BombShotTime)
 	{
+		CurrentShotTime = 0.0f;
 		GetWorldTimerManager().ClearTimer(BombShotTimer);
 		return;
 	}
