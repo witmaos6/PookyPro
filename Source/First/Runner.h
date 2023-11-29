@@ -101,6 +101,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill")
 	float CurrentShotTime;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill")
+	uint8 bTacoEquip : 1;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Skill")
 	USoundBase* FirstSkillSound;
 
@@ -141,6 +144,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Controller")
 	ARunnerPlayerController* RunnerPlayerController;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Complete")
+	UAnimMontage* CompleteMontage;
+
 protected:
 	void Charging();
 
@@ -179,4 +185,7 @@ public:
 	FORCEINLINE void SetCharacterState(ECharacterState State) { CharacterState = State; }
 
 	FORCEINLINE ECharacterState GetCharacterState() { return CharacterState; }
+
+	UFUNCTION(BlueprintCallable)
+	void LevelComplete();
 };

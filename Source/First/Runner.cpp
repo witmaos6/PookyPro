@@ -44,6 +44,7 @@ ARunner::ARunner()
 	BombDelay = 0.5f;
 	BombShotTime = 5.0f;
 	CurrentShotTime = 0.f;
+	bTacoEquip = false;
 
 	SkillSound = 1.0f;
 
@@ -122,6 +123,7 @@ void ARunner::SkillShot()
 	else if (ChargeGage >= SecondRequireSkill)
 	{
 		MP -= SecondRequireSkill;
+		bTacoEquip = true;
 		if (SecondSkillSound)
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), SecondSkillSound, SkillSound);
@@ -159,6 +161,7 @@ void ARunner::ShotBomb()
 	if(CurrentShotTime >= BombShotTime)
 	{
 		CurrentShotTime = 0.0f;
+		bTacoEquip = false;
 		GetWorldTimerManager().ClearTimer(BombShotTimer);
 		return;
 	}
@@ -186,6 +189,12 @@ void ARunner::DecreaseHP()
 		{
 			CharacterState = ECharacterState::ECS_Hit;
 			RunnerPlayerController->OpenGameOver();
+
+			if (HitMontage)
+			{
+				UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+				AnimInstance->Montage_Play(HitMontage, 1.0f);
+			}
 		}
 	}
 }
@@ -202,12 +211,6 @@ void ARunner::SetCollisionState()
 	}
 
 	RunnerPlayerController->BGMStop();
-
-	if(HitMontage)
-	{
-		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-		AnimInstance->Montage_Play(HitMontage, 1.0f);
-	}
 }
 
 void ARunner::ResetCollisionState()
@@ -215,4 +218,35 @@ void ARunner::ResetCollisionState()
 	CharacterState = ECharacterState::ECS_Normal;
 
 	RunnerPlayerController->BGMPlay();
+}
+
+void ARunner::LevelComplete()
+{
+	if(CompleteMontage)
+	{
+		UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+		FName SectionName = "Cartwheel";
+		int32 Index = FMath::RandRange(0, 3);
+
+		switch (Index)
+		{
+		case 0:
+			SectionName = "Looking";
+			break;
+		case 1:
+			SectionName = "Moonwalk";
+			break;
+		case 2:
+			SectionName = "StrongGesture";
+			break;
+		case 3:
+			SectionName = "WaveHipHopDance";
+			break;
+		default:
+				break;
+		}
+
+		AnimInstance->Montage_Play(CompleteMontage);
+		AnimInstance->Montage_JumpToSection(SectionName, CompleteMontage);
+	}
 }
