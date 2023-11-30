@@ -9,7 +9,9 @@
 #include "InputDataAsset.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Taco.h"
 #include "Engine/LocalPlayer.h"
+#include "Engine/SkeletalMeshSocket.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -57,6 +59,8 @@ ARunner::ARunner()
 	BasicSpeed = 600.f;
 
 	CharacterState = ECharacterState::ECS_Normal;
+
+	TacoSocketName = "PetSocket";
 }
 
 // Called when the game starts or when spawned
@@ -66,6 +70,16 @@ void ARunner::BeginPlay()
 
 	RunnerPlayerController = Cast<ARunnerPlayerController>(GetController());
 	BasicSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
+	FActorSpawnParameters SpawnParameters;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	TacoPet = GetWorld()->SpawnActor<ATaco>(Taco, FVector::ZeroVector, FRotator::ZeroRotator, SpawnParameters);
+
+	const USkeletalMeshSocket* PetSocket = GetMesh()->GetSocketByName(TacoSocketName);
+	if(TacoPet)
+	{
+		PetSocket->AttachActor(TacoPet, GetMesh());
+	}
 }
 
 // Called every frame
@@ -118,12 +132,12 @@ void ARunner::SkillShot()
 		}
 		RunnerPlayerController->BGMPitchUp();
 		FirstSkill();
-		
 	}
 	else if (ChargeGage >= SecondRequireSkill)
 	{
 		MP -= SecondRequireSkill;
 		bTacoEquip = true;
+		TacoPet->SkillShot();
 		if (SecondSkillSound)
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), SecondSkillSound, SkillSound);
@@ -165,7 +179,6 @@ void ARunner::ShotBomb()
 		GetWorldTimerManager().ClearTimer(BombShotTimer);
 		return;
 	}
-
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	FVector Location = GetActorLocation() + GetActorForwardVector() * BombDistance;

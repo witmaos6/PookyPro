@@ -12,6 +12,7 @@ class UInputDataAsset;
 class UInputMappingContext;
 class UCameraComponent;
 class USpringArmComponent;
+class ATaco;
 
 UENUM(BlueprintType)
 enum class ECharacterState : uint8
@@ -149,6 +150,15 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Complete")
 	UAnimMontage* CompleteMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Pet")
+	TSubclassOf<ATaco> Taco;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Pet")
+	ATaco* TacoPet;
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "Pet")
+	FName TacoSocketName;
 
 protected:
 	void Charging();
