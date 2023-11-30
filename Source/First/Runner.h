@@ -138,8 +138,11 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hit")
 	float CollisionDelay;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Hit")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit")
 	UAnimMontage* HitMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit")
+	UAnimMontage* FailedMontage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Controller")
 	ARunnerPlayerController* RunnerPlayerController;
@@ -188,4 +191,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void LevelComplete();
+
+	UFUNCTION(BlueprintCallable)
+	void FailedAnimationPlay();
 };

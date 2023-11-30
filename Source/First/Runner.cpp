@@ -190,10 +190,25 @@ void ARunner::DecreaseHP()
 			CharacterState = ECharacterState::ECS_Hit;
 			RunnerPlayerController->OpenGameOver();
 
+			UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 			if (HitMontage)
 			{
-				UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+				FName SectionName = "ScissorKick";
+				int32 Index = FMath::RandRange(0, 1);
+
+				switch (Index)
+				{
+				case 0:
+					SectionName = "SoccerTrip";
+					break;
+				case 1:
+					SectionName = "Stunned";
+					break;
+				default:
+					break;
+				}
 				AnimInstance->Montage_Play(HitMontage, 1.0f);
+				AnimInstance->Montage_JumpToSection(SectionName, HitMontage);
 			}
 		}
 	}
@@ -248,5 +263,17 @@ void ARunner::LevelComplete()
 
 		AnimInstance->Montage_Play(CompleteMontage);
 		AnimInstance->Montage_JumpToSection(SectionName, CompleteMontage);
+	}
+}
+
+void ARunner::FailedAnimationPlay()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (FailedMontage)
+	{
+		int32 Index = FMath::RandRange(0, 1);
+		FName SectionName = (Index == 0) ? "Dying" : "Yelling";
+		AnimInstance->Montage_Play(FailedMontage, 1.0f);
+		AnimInstance->Montage_JumpToSection(SectionName, FailedMontage);
 	}
 }
