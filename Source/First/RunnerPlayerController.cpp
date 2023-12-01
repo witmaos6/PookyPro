@@ -159,8 +159,12 @@ void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 			UAnimInstance* AnimInstance = Runner->GetMesh()->GetAnimInstance();
 			if (AnimInstance && Runner->GetSlideMontage())
 			{
-				AnimInstance->Montage_Play(Runner->GetSlideMontage(), 1.0f);
 				Runner->SetCharacterState(ECharacterState::ECS_Slide);
+
+				int32 Index = FMath::RandRange(0, 1);
+				FName SectionName = (Index == 0) ? "FowardRoll" : "RunningSlide";
+				AnimInstance->Montage_Play(Runner->GetSlideMontage(), 1.0f);
+				AnimInstance->Montage_JumpToSection(SectionName, Runner->GetSlideMontage());
 			}
 		}
 	}
