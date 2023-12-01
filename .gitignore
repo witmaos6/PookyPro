@@ -13,14 +13,5 @@ Saved
 *.xcodeproj
 *.xcworkspace
 
-Content/MetaHumans
-Content/StarterContent
-Content/Characters
 Content/LevelPrototyping
-Content/Maps/MainLevel.umap
-Content/Maps/MainLevel2.umap
-Content/MPKLAsset
 Content/Levelwork
-Content/Runner/Pooky
-Content/Runner/Animation
-Content/Runner/Taco
