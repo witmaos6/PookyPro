@@ -157,7 +157,7 @@ void ARunnerPlayerController::Slide(const FInputActionValue& Value)
 		if(Movement)
 		{
 			UAnimInstance* AnimInstance = Runner->GetMesh()->GetAnimInstance();
-			if (AnimInstance)
+			if (AnimInstance && Runner->GetSlideMontage())
 			{
 				AnimInstance->Montage_Play(Runner->GetSlideMontage(), 1.0f);
 				Runner->SetCharacterState(ECharacterState::ECS_Slide);
@@ -172,7 +172,6 @@ void ARunnerPlayerController::Jump(const FInputActionValue& Value)
 	{
 		Runner->Jump();
 		Runner->SetCharacterState(ECharacterState::ECS_Jump);
-		// To do: 2´Ü Á¡ÇÁ
 	}
 	GetWorldTimerManager().SetTimer(JumpTimer, this, &ARunnerPlayerController::ResetJumpState, GetWorld()->GetDeltaSeconds(), true);
 }
@@ -235,4 +234,25 @@ void ARunnerPlayerController::BGMPitchReset()
 {
 	AudioComponent->SetPitchMultiplier(1.0f);
 	Runner->GetCharacterMovement()->MaxWalkSpeed = Runner->GetBasicSpeed();
+}
+
+void ARunnerPlayerController::SpawnHaetaeAndPossess()
+{
+	if(Haetae)
+	{
+		FActorSpawnParameters SpawnParameters;
+		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		HaetaeCharacter = GetWorld()->SpawnActor<ACharacter>(Haetae, Runner->GetActorLocation(), Runner->GetActorRotation(), SpawnParameters);
+		Possess(HaetaeCharacter);
+
+		GetWorldTimerManager().SetTimer(ThirdSkillTimer, this, &ARunnerPlayerController::ResetPossess, ThirdSkillTime);
+	}
+}
+
+void ARunnerPlayerController::ResetPossess()
+{
+	Runner->SetActorTransform(HaetaeCharacter->GetActorTransform());
+	Possess(Runner);
+	Runner->SetCharacterState(ECharacterState::ECS_Normal);
+	HaetaeCharacter->Destroy();
 }

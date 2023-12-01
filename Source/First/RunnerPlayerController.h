@@ -95,6 +95,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
 	float ThirdSkillTime;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Skill")
+	TSubclassOf<ACharacter> Haetae;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Skill")
+	ACharacter* HaetaeCharacter;
+
+	FTimerHandle ThirdSkillTimer;
+
 	FTimerHandle JumpTimer;
 
 protected:
@@ -141,4 +149,8 @@ public:
 	void BGMPitchUp();
 
 	void BGMPitchReset();
+
+	void SpawnHaetaeAndPossess();
+
+	void ResetPossess();
 };

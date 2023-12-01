@@ -21,6 +21,7 @@ enum class ECharacterState : uint8
 	ECS_Jump UMETA(DisplayName = "Jump"),
 	ECS_Slide UMETA(DisplayName = "Slide"),
 	ECS_Hit UMETA(DisplayName = "Hit"),
+	ECS_Haetae UMETA(DisplayName = "Haetae"),
 	ECS_End UMETA(DisplayName = "End")
 };
 

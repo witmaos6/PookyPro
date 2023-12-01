@@ -69,6 +69,7 @@ void ARunner::BeginPlay()
 	Super::BeginPlay();
 
 	RunnerPlayerController = Cast<ARunnerPlayerController>(GetController());
+	
 	BasicSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
 	FActorSpawnParameters SpawnParameters;
@@ -98,11 +99,6 @@ void ARunner::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(Cast<ULocalPlayer>(this));
-
-	/*Subsystem->ClearAllMappings();
-	Subsystem->AddMappingContext(InputMapping, 0);*/
-
 	UEnhancedInputComponent* EnhancedInput = Cast<UEnhancedInputComponent>(InputComponent);
 
 	EnhancedInput->BindAction(InputData->Charging, ETriggerEvent::Ongoing, this, &ARunner::Charging);
@@ -130,7 +126,9 @@ void ARunner::SkillShot()
 		{
 			UGameplayStatics::PlaySound2D(GetWorld(), HaeteSpawnSound, SkillSound);
 		}
+		SetCharacterState(ECharacterState::ECS_Haetae);
 		RunnerPlayerController->BGMPitchUp();
+		RunnerPlayerController->SpawnHaetaeAndPossess();
 		FirstSkill();
 	}
 	else if (ChargeGage >= SecondRequireSkill)
