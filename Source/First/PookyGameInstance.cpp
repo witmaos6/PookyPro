@@ -20,7 +20,7 @@ UPookyGameInstance::UPookyGameInstance(const FObjectInitializer& ObjectInitializ
 
 void UPookyGameInstance::Init()
 {
-
+	Super::Init();
 }
 
 void UPookyGameInstance::LoadMenu()
@@ -53,7 +53,7 @@ void UPookyGameInstance::Play()
 	UWorld* World = GetWorld();
 	if(World)
 	{
-		World->ServerTravel("/Game/Maps/Test");
+		World->ServerTravel("/Game/Maps/Test"); // To do: 실행할 맵 변경
 	}
 }
 

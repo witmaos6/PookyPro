@@ -32,7 +32,7 @@ protected:
 	UGameOver* GameOver;
 
 public:
-	virtual void Init();
+	virtual void Init() override;
 
 	UFUNCTION(BlueprintCallable)
 	void LoadMenu();

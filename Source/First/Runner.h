@@ -141,6 +141,9 @@ protected:
 	float CollisionDelay;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit")
+	UAnimMontage* StiffenMontage;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit")
 	UAnimMontage* HitMontage;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Hit")

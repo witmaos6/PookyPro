@@ -192,35 +192,40 @@ void ARunner::IncreaseMP(float Value)
 
 void ARunner::DecreaseHP()
 {
-	if(Life > 0) // Temp
+	Life--;
+	CharacterState = ECharacterState::ECS_Hit;
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+
+	if(Life > 0)
 	{
-		Life--;
-
-		if (Life == 0)
+		if (StiffenMontage)
 		{
-			CharacterState = ECharacterState::ECS_Hit;
-			RunnerPlayerController->OpenGameOver();
+			AnimInstance->Montage_Play(StiffenMontage, 2.0f);
+			AnimInstance->Montage_JumpToSection(FName("Stiffen"), StiffenMontage);
+		}
+	}
+	else if (Life == 0)
+	{
+		RunnerPlayerController->OpenGameOver();
+		
+		if (HitMontage)
+		{
+			FName SectionName = "ScissorKick";
+			int32 Index = FMath::RandRange(0, 1);
 
-			UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-			if (HitMontage)
+			switch (Index)
 			{
-				FName SectionName = "ScissorKick";
-				int32 Index = FMath::RandRange(0, 1);
-
-				switch (Index)
-				{
-				case 0:
-					SectionName = "SoccerTrip";
-					break;
-				case 1:
-					SectionName = "Stunned";
-					break;
-				default:
-					break;
-				}
-				AnimInstance->Montage_Play(HitMontage, 1.0f);
-				AnimInstance->Montage_JumpToSection(SectionName, HitMontage);
+			case 0:
+				SectionName = "SoccerTrip";
+				break;
+			case 1:
+				SectionName = "Stunned";
+				break;
+			default:
+				break;
 			}
+			AnimInstance->Montage_Play(HitMontage, 1.0f);
+			AnimInstance->Montage_JumpToSection(SectionName, HitMontage);
 		}
 	}
 }
