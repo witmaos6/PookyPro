@@ -24,11 +24,13 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget")
 	TSubclassOf<UUserWidget> MainMenu;
 
+	UPROPERTY()
 	UMainMenu* Menu;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widget")
 	TSubclassOf<UUserWidget> GameOverUI;
 
+	UPROPERTY()
 	UGameOver* GameOver;
 
 public:
